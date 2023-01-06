@@ -46,7 +46,7 @@ const SingleProduct = () => {
                 <span className="dec" onClick={decQuantity}><i class="fa-solid fa-minus"></i></span>
                 <span className="quantity">{quantity}</span>
                 <span className="inc" onClick={() => setQuantity(quantity+1)}><i class="fa-solid fa-plus"></i></span>
-                <button className="btn-default" onClick={()=>dispatch(AddToCart(id,quantity,product))}>ADD TO CART</button>
+                <button className="btn-default" onClick={() => dispatch(AddToCart(quantity,product))}>ADD TO CART</button>
               </div>
             </div>
             <div className="details__p">
