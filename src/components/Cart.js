@@ -2,11 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PriceFormat from "../Helpers/PriceFormat";
 import "../css/Product.css"
+import {setDecrease,setIncrease,removeItem} from '../action/index'
+import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { products, totalPrice, totalQuantity } = useSelector(
-    (state) => state.cartReducer
-  );
+  const { products, totalPrice, totalQuantity } = useSelector((state) => state.cartReducer);
+  console.log(products)
   const dispatch = useDispatch();
 
   return (
@@ -48,7 +49,7 @@ const Cart = () => {
                           <span
                             className="dec"
                             onClick={() =>
-                              dispatch({ type: "DEC", payload: product.id })
+                              dispatch(setDecrease(product.id))
                             }
                           > <i class="fa-solid fa-minus"></i>
                           </span>
@@ -56,7 +57,7 @@ const Cart = () => {
                           <span
                             className="inc"
                             onClick={() =>
-                              dispatch({ type: "INC", payload: product.id })
+                              dispatch(setIncrease(product.id))
                             }
                           > <i class="fa-solid fa-plus"></i>
                           </span>
@@ -65,14 +66,14 @@ const Cart = () => {
                     </div>
                     <div className="col-2">
                       <div className="cart__total text-center">
-                      {PriceFormat(product.price)}
+                      {PriceFormat(product.price*product.quantity)}
                       </div>
                     </div>
                     <div className="col-2">
                       <div
                         className="cart__remove"
                         onClick={() =>
-                          dispatch({ type: "REMOVE", payload: product.id })
+                          dispatch(removeItem(product.id))
                         }
                       >
                        <i class="fa-solid fa-trash"></i>
@@ -99,6 +100,9 @@ const Cart = () => {
                       Checkout
                     </button>
                   </div>
+                    <button type="button" className="checkout">
+                     <Link to='/'> continue to shopping</Link>
+                    </button>
                 </div>
               </div>
             </div>

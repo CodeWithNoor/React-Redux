@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PriceFormat from "../Helpers/PriceFormat";
 import {AddToCart} from '../action/index'
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../css/Product.css'
 
 const SingleProduct = () => {
@@ -46,7 +46,7 @@ const SingleProduct = () => {
                 <span className="dec" onClick={decQuantity}><i class="fa-solid fa-minus"></i></span>
                 <span className="quantity">{quantity}</span>
                 <span className="inc" onClick={() => setQuantity(quantity+1)}><i class="fa-solid fa-plus"></i></span>
-                <button className="btn-default" onClick={() => dispatch(AddToCart(quantity,product))}>ADD TO CART</button>
+                <button className="btn-default" onClick={() => dispatch(AddToCart(quantity,product))}><Link to='/cart'>ADD TO CART</Link></button>
               </div>
             </div>
             <div className="details__p">

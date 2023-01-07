@@ -198,6 +198,9 @@ a {
 	background: #f4f6f8;
 	padding: 10px;
 }
+.cart__name {
+	font-size: 14px;
+}
 .cart__image img {
 	width: 100px;
 	height: 100px;
@@ -288,4 +291,4 @@ a {
 	.details__image {
 		padding-right: 0;
 	}
-}
+} 
