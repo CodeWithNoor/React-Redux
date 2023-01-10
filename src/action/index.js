@@ -1,7 +1,7 @@
-export const AddToCart = (quantity, product) => {
+export const AddToCart = (id, color, quantity, product) => {
   return {
     type: 'ADD_TO_CART',
-    payload: {quantity, product}
+    payload: {id, color, quantity, product}
   }
 }
 
@@ -20,9 +20,17 @@ export const setIncrease = (id) => {
   }
 }
 
+// remove product in cart
 export const removeItem = (id) => {
   return {
     type: 'REMOVE_ITEM',
     payload: id
+  }
+}
+
+// clear the cart
+export const clearCart = () => {
+  return {
+    type: 'CLEAR_CART'
   }
 }

@@ -2,12 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PriceFormat from "../Helpers/PriceFormat";
 import "../css/Product.css"
-import {setDecrease,setIncrease,removeItem} from '../action/index'
+import {setDecrease,setIncrease,removeItem, clearCart} from '../action/index'
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { products, totalPrice, totalQuantity } = useSelector((state) => state.cartReducer);
-  console.log(products)
+  const { products, totalQuantity, totalPrice} = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
 
   return (
@@ -28,19 +27,22 @@ const Cart = () => {
                     <div className="col-2">Remove</div>
                   </div>
                 </div>
-                {products.map((product) => (
-                  <div className="row verticalAlign" key={product.id}>
+                {products.map((item) => {
+                  const { id, name, price, image, quantity } = item;
+                  return (
+
+                  <div className="row verticalAlign" key={id}>
                     <div className="col-2">
                       <div className="cart__image">
-                        <img src={`${product.image}`} alt="" />
+                        <img src={`${image}`} alt="" />
                       </div>
                     </div>
                     <div className="col-2">
-                      <div className="cart__name">{product.name}</div>
+                      <div className="cart__name">{name}</div>
                     </div>
                     <div className="col-2">
                       <div className="cart__price">
-                        {PriceFormat(product.price)}
+                        {PriceFormat(price)}
                       </div>
                     </div>
                     <div className="col-2">
@@ -49,15 +51,15 @@ const Cart = () => {
                           <span
                             className="dec"
                             onClick={() =>
-                              dispatch(setDecrease(product.id))
+                              dispatch(setDecrease(id))
                             }
                           > <i class="fa-solid fa-minus"></i>
                           </span>
-                          <span className="quantity">{product.quantity}</span>
+                          <span className="quantity">{quantity}</span>
                           <span
                             className="inc"
                             onClick={() =>
-                              dispatch(setIncrease(product.id))
+                              dispatch(setIncrease(id))
                             }
                           > <i class="fa-solid fa-plus"></i>
                           </span>
@@ -66,21 +68,25 @@ const Cart = () => {
                     </div>
                     <div className="col-2">
                       <div className="cart__total text-center">
-                      {PriceFormat(product.price*product.quantity)}
+                      {PriceFormat(price*quantity)}
                       </div>
                     </div>
                     <div className="col-2">
                       <div
                         className="cart__remove"
                         onClick={() =>
-                          dispatch(removeItem(product.id))
+                          dispatch(removeItem(id))
                         }
                       >
                        <i class="fa-solid fa-trash"></i>
                       </div>
                     </div>
                   </div>
-                ))}
+                  )
+})}
+                <button type="button" class="btn btn-info m-2"><Link to='/' className="text-white"> continue to shopping</Link></button>
+                <button type="button" className="btn btn-danger m-2" onClick={()=>dispatch(clearCart())}>clear cart</button>
+                <button type="button" className="btn btn-warning text-white m-2">Checkout</button>
               </div>
               <div className="col-3 summary-col">
                 <div className="summary">
@@ -96,13 +102,7 @@ const Cart = () => {
                       {PriceFormat(totalPrice)}
                       </div>
                     </div>
-                    <button type="button" className="checkout">
-                      Checkout
-                    </button>
                   </div>
-                    <button type="button" className="checkout">
-                     <Link to='/'> continue to shopping</Link>
-                    </button>
                 </div>
               </div>
             </div>

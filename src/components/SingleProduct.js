@@ -6,7 +6,7 @@ import {AddToCart} from '../action/index'
 import { Link } from "react-router-dom";
 import '../css/Product.css'
 
-const SingleProduct = () => {
+const SingleProduct = ({color}) => {
   const [quantity, setQuantity] = useState(1)
   const { id } = useParams(); // destructuring of id
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const SingleProduct = () => {
                 <span className="dec" onClick={decQuantity}><i class="fa-solid fa-minus"></i></span>
                 <span className="quantity">{quantity}</span>
                 <span className="inc" onClick={() => setQuantity(quantity+1)}><i class="fa-solid fa-plus"></i></span>
-                <button className="btn-default" onClick={() => dispatch(AddToCart(quantity,product))}><Link to='/cart'>ADD TO CART</Link></button>
+                <button className="btn-default" onClick={() => dispatch(AddToCart(id, color, quantity, product))}><Link to='/cart'>ADD TO CART</Link></button>
               </div>
             </div>
             <div className="details__p">
