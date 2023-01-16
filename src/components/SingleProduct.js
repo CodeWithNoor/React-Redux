@@ -14,7 +14,7 @@ const SingleProduct = ({color}) => {
   
   useEffect(() => {
     dispatch({ type: "PRODUCT", id });
-  }, [id]);
+  }, [id]); // array dependency
 
   const decQuantity = () => {
     if(quantity > 1) {
@@ -34,18 +34,18 @@ const SingleProduct = ({color}) => {
           <div className="col-6">
             <div className="details__name">{product.name}</div>
             <div className="details__prices">
-              <span className="details__actaul">
+              <span className="details__actual">
                 {PriceFormat(product.price)}
               </span>
               <span className="details__discount">
-                {PriceFormat(product.price)}
+                {PriceFormat(product.discountPrice)}
               </span>
             </div>
             <div className="details__info">
               <div className="details__incDec">
-                <span className="dec" onClick={decQuantity}><i class="fa-solid fa-minus"></i></span>
+                <span className="dec" onClick={decQuantity}><i className="fa-solid fa-minus"></i></span>
                 <span className="quantity">{quantity}</span>
-                <span className="inc" onClick={() => setQuantity(quantity+1)}><i class="fa-solid fa-plus"></i></span>
+                <span className="inc" onClick={() => setQuantity(quantity+1)}><i className="fa-solid fa-plus"></i></span>
                 <button className="btn-default" onClick={() => dispatch(AddToCart(id, color, quantity, product))}><Link to='/cart'>ADD TO CART</Link></button>
               </div>
             </div>

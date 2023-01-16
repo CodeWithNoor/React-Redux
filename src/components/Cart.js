@@ -1,12 +1,17 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PriceFormat from "../Helpers/PriceFormat";
-import "../css/Product.css"
-import {setDecrease,setIncrease,removeItem, clearCart} from '../action/index'
+import "../css/Product.css";
+import {
+  setDecrease,
+  setIncrease,
+  removeItem,
+  clearCart,
+} from "../action/index";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { products, totalQuantity, totalPrice} = useSelector((state) => state.cartReducer);
+  const { products, totalQuantities, totalPrice } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
 
   return (
@@ -28,65 +33,74 @@ const Cart = () => {
                   </div>
                 </div>
                 {products.map((item) => {
-                  const { id, name, price, image, quantity } = item;
+                  const { id, name, price, image, quantity, discountPrice } = item;
                   return (
-
-                  <div className="row verticalAlign" key={id}>
-                    <div className="col-2">
-                      <div className="cart__image">
-                        <img src={`${image}`} alt="" />
+                    <div className="row verticalAlign" key={id}>
+                      <div className="col-2">
+                        <div className="cart__image">
+                          <img src={`${image}`} alt="" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-2">
-                      <div className="cart__name">{name}</div>
-                    </div>
-                    <div className="col-2">
-                      <div className="cart__price">
-                        {PriceFormat(price)}
+                      <div className="col-2">
+                        <div className="cart__name">{name}</div>
                       </div>
-                    </div>
-                    <div className="col-2">
-                      <div className="details__info cart__incDec">
-                        <div className="details__incDec">
-                          <span
-                            className="dec"
-                            onClick={() =>
-                              dispatch(setDecrease(id))
-                            }
-                          > <i class="fa-solid fa-minus"></i>
-                          </span>
-                          <span className="quantity">{quantity}</span>
-                          <span
-                            className="inc"
-                            onClick={() =>
-                              dispatch(setIncrease(id))
-                            }
-                          > <i class="fa-solid fa-plus"></i>
-                          </span>
+                      <div className="col-2">
+                        <div className="cart__price">{PriceFormat(discountPrice)}</div>
+                      </div>
+                      <div className="col-2">
+                        <div className="details__info cart__incDec">
+                          <div className="details__incDec">
+                            <span
+                              className="dec"
+                              onClick={() => dispatch(setDecrease(id))}
+                            >
+                              {" "}
+                              <i className="fa-solid fa-minus"></i>
+                            </span>
+                            <span className="quantity">{quantity}</span>
+                            <span
+                              className="inc"
+                              onClick={() => dispatch(setIncrease(id))}
+                            >
+                              <i className="fa-solid fa-plus"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-2">
+                        <div className="cart__total text-center">
+                          {PriceFormat(discountPrice * quantity)}
+                        </div>
+                      </div>
+                      <div className="col-2">
+                        <div
+                          className="cart__remove"
+                          onClick={() => dispatch(removeItem(id))}
+                        >
+                          <i className="fa-solid fa-trash"></i>
                         </div>
                       </div>
                     </div>
-                    <div className="col-2">
-                      <div className="cart__total text-center">
-                      {PriceFormat(price*quantity)}
-                      </div>
-                    </div>
-                    <div className="col-2">
-                      <div
-                        className="cart__remove"
-                        onClick={() =>
-                          dispatch(removeItem(id))
-                        }
-                      >
-                       <i class="fa-solid fa-trash"></i>
-                      </div>
-                    </div>
-                  </div>
-                  )
-})}
-                <button type="button" class="btn btn-info m-2"><Link to='/' className="text-white"> continue to shopping</Link></button>
-                <button type="button" className="btn btn-danger m-2" onClick={()=>dispatch(clearCart())}>clear cart</button>
-                <button type="button" className="btn btn-warning text-white m-2">Checkout</button>
+                  );
+                })}
+                <button type="button" className="btn btn-info m-2">
+                  <Link to="/" className="text-white">
+                    continue to shopping
+                  </Link>
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger m-2"
+                  onClick={() => dispatch(clearCart())}
+                >
+                  clear cart
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning text-white m-2"
+                >
+                  Checkout
+                </button>
               </div>
               <div className="col-3 summary-col">
                 <div className="summary">
@@ -94,7 +108,7 @@ const Cart = () => {
                   <div className="summary__details">
                     <div className="row mb-10">
                       <div className="col-6">Total Items:</div>
-                      <div className="col-6">{totalQuantity}</div>
+                      <div className="col-6">{totalQuantities}</div>
                     </div>
                     <div className="row mb-10">
                       <div className="col-6">Total Price</div>
@@ -102,6 +116,9 @@ const Cart = () => {
                       {PriceFormat(totalPrice)}
                       </div>
                     </div>
+                    <button type="button" className="checkout">
+                      Checkout
+                    </button>
                   </div>
                 </div>
               </div>

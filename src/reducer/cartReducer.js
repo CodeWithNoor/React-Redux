@@ -1,77 +1,68 @@
 const initialState = {
   products: [],
+  totalQuantities: 0,
   totalPrice: 0,
-  totalQuantity: 0,
 };
 
-const cartReducer = (state = initialState, action) => { 
-    let update_product;
-    let index;
 
-  if (action.type === "ADD_TO_CART") {
-    const { product, quantity } = action.payload;
-    const exsistingProduct = state.products.find(
-      (curItem) => curItem.id === product.id
-    );
-    if (exsistingProduct) {
-      return state;
+const cartReducer  = (state = initialState, action) => {
+  if(action.type === 'ADD_TO_CART'){
+    let {product, quantity} = action.payload;
+    const exsisting_product = state.products.find((curItem) => curItem.id === product.id)
+    if(exsisting_product){
+      return state
     } else {
-      const TotalPrice = state.totalPrice + product.price * quantity;
-      const TotalQuantity = state.totalQuantity + quantity;
-      product.quantity = quantity;
+      const Total__Price = state.totalPrice + product.discountPrice * quantity
+      const Total__Item = state.totalQuantities + quantity
+      product.quantity = quantity
       return {
-        ...state,
-        products: [...state.products, product],
-        totalPrice: TotalPrice,
-        totalQuantity: TotalQuantity,
-      };
+        ...state, products: [...state.products, product],
+        totalPrice: Total__Price,
+        totalQuantities: Total__Item,
+      }
     }
   }
 
-  if(action.type === 'SET_DECREMENT'){
-    update_product = state.products.find((product) => product.id === action.payload) // checked quantity
-    index = state.products.findIndex((product) => product.id === action.payload) 
-    if(update_product.quantity > 1){
-        update_product.quantity -= 1;
-        state.products[index] = update_product;
-        return {
-            ...state,
-            totalPrice: state.totalPrice - update_product.price, totalQuantity: state.totalQuantity - 1
-        }
-     }
-  }
-
-  if(action.type === 'SET_INCREMENT'){
-    update_product = state.products.find(product => product.id === action.payload);
-    index = state.products.findIndex(product => product.id === action.payload);
-    update_product.quantity += 1;
-    state.products[index] = update_product;
-    return {
-        ...state,
-        totalPrice: state.totalPrice + update_product.price, totalQuantity: state.totalQuantity+1
+    if(action.type === 'SET_INCREMENT'){
+     let updatedCart = state.products.find(product => product.id === action.payload);
+     let index = state.products.findIndex(product => product.id === action.payload);
+     updatedCart.quantity += 1;
+      state.products[index] = updatedCart;
+      return {
+          ...state,
+          totalPrice: state.totalPrice + updatedCart.discountPrice, totalQuantities: state.totalQuantities + 1
+      }
     }
-  }
-
-  // to delete the individual elements from an item cart
-  if(action.type === 'REMOVE_ITEM') {
-    update_product = state.products.filter((product) => product.id !== action.payload)
-    return {
-      ...state,
-      products: update_product
+    
+    if(action.type === 'SET_DECREMENT'){
+     let updatedCart = state.products.find(product => product.id === action.payload);
+     let index = state.products.findIndex(product => product.id === action.payload); // find out index & then quantity update
+      if(updatedCart.quantity > 1){
+        updatedCart.quantity -= 1;
+         state.products[index] = updatedCart;
+         return {
+             ...state,
+             totalPrice: state.totalPrice - updatedCart.discountPrice, totalQuantities: state.totalQuantities - 1
+         }
+      } return state
     }
-  }
 
-  // clear the cart
-  if(action.type === 'CLEAR_CART'){
-    return {
-      ...state,
-      products: []
+    if(action.type === 'REMOVE_ITEM'){
+      let updatedCart = state.products.filter ((curElem) => curElem.id !== action.payload)
+      return {
+        ...state, products: updatedCart
+      }
     }
-  }
 
-else {
-    return state;
-  }
-};
+    if(action.type === 'CLEAR_CART') {
+      return {
+        ...state, products: []
+      }
+    }
 
-export default cartReducer;
+   else {
+    return state
+  }
+}
+
+export default cartReducer

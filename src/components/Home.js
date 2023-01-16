@@ -11,7 +11,7 @@ const Home = () => {
       <div className="container">
         <div className="row">
           {products.map((item, index) => {
-            const { id, name, price, image, discount } = item;
+            const { id, name, price, image, discount, discountPrice} = item;
             return (
               <div className="col-4" key={index}>
                 <div className="product">
@@ -32,7 +32,7 @@ const Home = () => {
                     </div>
                     <div className="col-6">
                       <div className="product__discount__price">
-                        {PriceFormat(price)}
+                        {PriceFormat(discountPrice)}
                       </div>
                     </div>
                   </div>
